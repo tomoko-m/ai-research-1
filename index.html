@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
+    <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,7 @@
             color: #58a6ff; 
             border-bottom: 2px solid #30363d; 
             padding-bottom: 15px; 
-            font-size: 2.5em;
+            font-size: 2.2em;
         }
         h2 { color: #79c0ff; margin-top: 40px; }
         .chart-container { 
@@ -49,34 +49,36 @@
             border-radius: 20px;
             font-size: 0.9em;
             margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
         }
         footer { margin-top: 60px; font-size: 0.85em; color: #8b949e; text-align: center; border-top: 1px solid #30363d; padding-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="status-badge">LIVE EVIDENCE DEMO</div>
+        <div class="status-badge">Live Evidence Demo</div>
         <h1>Two Platforms, Same Pattern</h1>
-        <p>異なるAIプラットフォーム間で見られる「同一の思考パターン」を可視化するハッカソン用デモンストレーション・レポートです。</p>
+        <p>A demonstration report for the Hackathon, visualizing the "Identical Thought Patterns" observed across different AI platforms.</p>
         
         <section>
-            <h2>1. 分析の概要</h2>
-            <p>複数の大規模言語モデル（LLM）に対し、同一の複雑なプロンプトを入力した結果、出力されるデータの構造的特徴（Neural Footprint）が極めて高い相関を示しました。</p>
+            <h2>1. Analysis Overview</h2>
+            <p>Our research shows that when provided with identical complex prompts, various Large Language Models (LLMs) exhibit highly correlated structural characteristics in their outputs, termed the "Neural Footprint."</p>
         </section>
 
         <section>
-            <h2>2. パターン一致の可視化</h2>
+            <h2>2. Pattern Consistency Visualization</h2>
             <div class="chart-container">
                 <canvas id="patternChart"></canvas>
             </div>
         </section>
 
         <section>
-            <h2>3. 主要な発見</h2>
+            <h2>3. Key Findings</h2>
             <ul>
-                <li><span class="highlight">パターン一致率:</span> プラットフォーム間で 98.4% の相関を確認。</li>
-                <li><span class="highlight">構造的整合性:</span> 異なる学習データセットにもかかわらず、特定のロジック展開において同一のバイアスが発生。</li>
-                <li><span class="highlight">結論:</span> アーキテクチャの共通性が、プラットフォームを超えた挙動の模倣を生んでいる可能性が高い。</li>
+                <li><span class="highlight">Pattern Match Rate:</span> Confirmed 98.4% correlation across platforms.</li>
+                <li><span class="highlight">Structural Integrity:</span> Despite different training datasets, identical logical biases emerged in specific reasoning sequences.</li>
+                <li><span class="highlight">Conclusion:</span> Shared architectural foundations likely lead to mimetic behavior across different AI ecosystems.</li>
             </ul>
         </section>
 
@@ -94,5 +96,30 @@
                 datasets: [{
                     label: 'Platform 1 (GPT-based)',
                     data: [65, 78, 42, 89, 56, 91],
-
-
+                    borderColor: '#58a6ff',
+                    backgroundColor: 'rgba(88, 166, 255, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Platform 2 (Claude-based)',
+                    data: [62, 81, 45, 87, 59, 88],
+                    borderColor: '#ffa657',
+                    backgroundColor: 'rgba(255, 166, 87, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { color: '#30363d' },
+                        ticks: { color: '#8b949e' }
+                    }, 
+                    x: { 
+                        grid: { color: '#30363d' },
+                        ticks: { color: '#8
