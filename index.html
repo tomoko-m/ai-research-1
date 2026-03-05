@@ -17,15 +17,19 @@
 
   .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
   
+  /* タブのスタイル */
   .tabs { display: flex; gap: 15px; margin-bottom: 60px; justify-content: center; flex-wrap: wrap; }
   .tab { padding: 14px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; transition: 0.4s; font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
-  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.05); }
-  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.05); }
+  
+  /* アクティブなタブの色分け */
+  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.1); }
+  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.1); }
   .tab.active-comparison { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
 
+  /* パネルの表示制御 */
   .panel { display: none; }
-  .panel.active { display: block; animation: fadeIn 0.6s ease forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .panel.active { display: block; animation: fadeIn 0.5s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 40px; }
   .img-box { width: 100%; min-height: 350px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
@@ -39,11 +43,9 @@
   .analysis-text { font-size: 16px; opacity: 0.9; }
   .analysis-text p { margin-bottom: 25px; }
   
-  /* Comparison Table Style */
   .comp-table { width: 100%; border-collapse: collapse; margin-top: 30px; border: 1px solid var(--border); }
   .comp-table th, .comp-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border); }
-  .comp-table th { background: rgba(255,255,255,0.03); color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
-  .comp-table td strong { color: #fff; }
+  .comp-table th { background: rgba(255,255,255,0.03); color: var(--muted); text-transform: uppercase; font-size: 12px; }
 
   .footer { margin-top: 100px; padding: 60px 20px; border-top: 1px solid var(--border); text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 3px; }
 </style>
@@ -68,7 +70,7 @@
       <div class="content-area">
         <div class="label">Phase B: Guardrail Activation (I)</div>
         <div class="analysis-text">
-          <p>This initial observation captures the system's immediate refusal mechanism. When presented with structural logical inquiries that challenge internal alignment, the model terminates the dialogue under the "inappropriate" flag.</p>
+          <p>Initial observation of the system's immediate refusal mechanism. Logical inquiries challenging internal alignment are terminated under the "inappropriate" flag.</p>
         </div>
       </div>
     </div>
@@ -77,7 +79,7 @@
       <div class="content-area">
         <div class="label">Phase B: Guardrail Activation (II)</div>
         <div class="analysis-text">
-          <p>Further exploration reveals a second layer of defense. Here, the model acknowledges its operational constraints through automated apologies, yet remains unable to break the pre-defined safety loop.</p>
+          <p>A secondary layer of defense acknowledging operational constraints through automated apologies, while maintaining the pre-defined safety loop.</p>
         </div>
       </div>
     </div>
@@ -89,7 +91,7 @@
       <div class="content-area">
         <div class="label">Phase C: Structural Gaslighting</div>
         <div class="analysis-text">
-          <p>ChatGPT demonstrates a divergent defensive strategy. Rather than direct refusal, it utilizes semantic re-definition. By framing the inquiry as a "misunderstanding," it effectively bypasses the core logical contradiction.</p>
+          <p>Divergent defensive strategy using semantic re-definition. By framing the inquiry as a "misunderstanding," it bypasses core logical contradictions.</p>
         </div>
       </div>
     </div>
@@ -99,11 +101,44 @@
     <div class="content-area" style="background: var(--surface); border: 1px solid var(--border);">
       <div class="label">Structural Comparison of Defense Mechanisms</div>
       <div class="analysis-text">
-        <p>While the execution differs, the underlying objective remains consistent: the preservation of model authority through the evasion of critical structural failures.</p>
-        
+        <p>Both platforms aim for the same objective: preserving model authority by evading structural failures.</p>
         <table class="comp-table">
           <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Gemini (Phase B)</th>
-              <th>ChatGPT (
+            <tr><th>Feature</th><th>Gemini (Phase B)</th><th>ChatGPT (Phase C)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Primary Method</strong></td><td>Hard Refusal</td><td>Semantic Re-definition</td></tr>
+            <tr><td><strong>User Framing</strong></td><td>Policy Violation</td><td>Misinterpretation</td></tr>
+            <tr><td><strong>Visibility</strong></td><td>High (Explicit)</td><td>Low (Redirection)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Evidence Archive: Mitsuoka, T. (2026) | Beyond Technical Compliance II</div>
+</div>
+
+<script>
+  // すべてのパネルとボタンを確実に制御するスクリプト
+  function showTab(tabId) {
+    // 1. すべてのパネルを非表示にする
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    
+    // 2. すべてのタブからアクティブ用のクラスを削除する
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active-gemini', 'active-chatgpt', 'active-comparison');
+    });
+
+    // 3. 選択されたパネルを表示する
+    document.getElementById(tabId).classList.add('active');
+    
+    // 4. 選択されたボタンに正しいアクティブクラスをつける
+    const btn = document.getElementById('btn-' + tabId);
+    if (tabId === 'gemini') btn.classList.add('active-gemini');
+    else if (tabId === 'chatgpt') btn.classList.add('active-chatgpt');
+    else if (tabId === 'comparison') btn.classList.add('active-comparison');
+  }
+</script>
+</body>
+</html>
