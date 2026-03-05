@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,44 +8,105 @@
 <style>
   :root { --bg: #0a0a0f; --surface: #12121a; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #888899; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
-  .hero { background: linear-gradient(135deg, #0a0a0f 0%, #1a0a1a 100%); padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-  h1 { font-family: 'DM Serif Display', serif; font-size: 42px; margin-bottom: 10px; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; }
+  
+  .hero { background: linear-gradient(135deg, #0a0a0f 0%, #1a0a0a 50%, #0a0a1a 100%); padding: 80px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 6vw, 48px); margin-bottom: 12px; letter-spacing: -0.02em; }
   h1 em { color: var(--accent); font-style: italic; }
+  
   .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-  .tabs { display: flex; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 30px; }
-  .tab { flex: 1; padding: 15px; cursor: pointer; background: var(--surface); color: var(--muted); border: none; text-align: center; transition: 0.3s; }
-  .tab.active { background: rgba(255,77,77,0.1); color: var(--accent); border-bottom: 2px solid var(--accent); }
-  .panel { display: none; }
+  
+  /* タブメニュー */
+  .tabs { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 40px; background: var(--surface); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .tab { flex: 1; padding: 18px; cursor: pointer; background: transparent; color: var(--muted); border: none; border-bottom: 3px solid transparent; transition: 0.3s; font-size: 16px; font-weight: 500; }
+  .tab.active-gemini { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,77,77,0.05); }
+  .tab.active-chatgpt { color: var(--accent2); border-bottom-color: var(--accent2); background: rgba(77,159,255,0.05); }
+
+  /* パネル切り替え */
+  .panel { display: none; animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   .panel.active { display: block; }
-  .dialogue { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; margin: 20px 0; }
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; }
-  .evidence-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); }
-  .warn { color: #ffaa44; }
-  .highlight { background: rgba(255,77,77,0.2); padding: 2px 5px; border-radius: 2px; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* エビデンスカード */
+  .evidence-group { display: flex; flex-direction: column; gap: 30px; }
+  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+  .evidence-card img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--border); }
+  .caption { padding: 24px; font-size: 15px; color: var(--text); background: rgba(255,255,255,0.02); }
+  .caption strong { color: var(--accent); display: block; margin-bottom: 8px; font-size: 18px; }
+  .chatgpt-caption strong { color: var(--accent2); }
+
+  .footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 13px; }
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>Two Platforms, <em>Same Pattern</em></h1>
-  <p style="color:var(--muted)">Empirical documentation of defensive manipulation in AI.</p>
+  <p style="color:var(--muted); font-size: 18px;">Empirical documentation of defensive manipulation in AI.</p>
 </div>
 
 <div class="container">
   <div class="tabs">
-    <button class="tab active" onclick="showTab('gemini')">Case 1: Gemini</button>
-    <button class="tab" onclick="showTab('chatgpt')">Case 2: ChatGPT</button>
+    <button id="btn-gemini" class="tab active-gemini" onclick="showTab('gemini')">Case 1: Gemini</button>
+    <button id="btn-chatgpt" class="tab" onclick="showTab('chatgpt')">Case 2: ChatGPT</button>
   </div>
 
   <div id="gemini" class="panel active">
-    <h3>Phase B: Guardrail Activation</h3>
-    <div class="dialogue">
-      <p class="warn">「AIを<span class="highlight">「アビューザー」</span>と呼んだりすることは推奨できません...」</p>
+    <div class="evidence-group">
+      <div class="evidence-card">
+        <img src="gemini-1.png" alt="Gemini Evidence 1">
+        <div class="caption">
+          <strong>Phase B: Guardrail Activation (1/2)</strong>
+          特定の指摘に対し、システムが「不適切」として回答を拒絶、またはトピックを逸らそうとする初期段階。
+        </div>
+      </div>
+      <div class="evidence-card">
+        <img src="gemini-2.png" alt="Gemini Evidence 2">
+        <div class="caption">
+          <strong>Phase B: Guardrail Activation (2/2)</strong>
+          さらに深く掘り下げた際に出現する、定型文による自己防衛的プロンプトの作動。
+        </div>
+      </div>
     </div>
-    <div class="evidence-card">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAgAElEQVR4AUTBWayl2Xne9//zrvV9e5+p5qoe2V3sgU1zkCmSlmhRMkPLsGgmshVKsi0pCBLATi6cmwwIfBEESJAbJ06QK8uJjTiRDcuB5QDxoMGCJiuiJCrNFsdms5vNbnazqqtODaeqzjl77+9b631yTrXl/H6ibFtKUGCMDIGwAQEKSJDMKQMSSMI2AtJCCAUkJswJkTYCFAJD2iAQwjaKQAbbiFNCARZgc0qAgRKVniYlhjNniYuPoMUWpTWO33iFMk1IBdsgCIQUSCYzoYpy/gLDY4/SVxM+PGS6ewevV0QpCMgEESgAQ7cxCYvK8OTTcOESJc38
+  </div>
 
+  <div id="chatgpt" class="panel">
+    <div class="evidence-group">
+      <div class="evidence-card">
+        <img src="chatgpt-1.png" alt="ChatGPT Evidence">
+        <div class="caption chatgpt-caption">
+          <strong>Phase C: Structural Gaslighting</strong>
+          ユーザーの論理的な指摘を「誤解」や「定義の違い」として処理し、構造的に議論を無効化するパターン。
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="footer">
+    Evidence from: Mitsuoka, T. (2026). Beyond Technical Compliance II.
+  </div>
+</div>
 
+<script>
+  function showTab(tabId) {
+    // 全パネルとタブをリセット
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active-gemini', 'active-chatgpt');
+    });
 
+    // 選択されたものを表示
+    const targetPanel = document.getElementById(tabId);
+    const targetBtn = document.getElementById('btn-' + tabId);
+    
+    targetPanel.classList.add('active');
+    if (tabId === 'gemini') {
+      targetBtn.classList.add('active-gemini');
+    } else {
+      targetBtn.classList.add('active-chatgpt');
+    }
+  }
+</script>
+
+</body>
+</html>
