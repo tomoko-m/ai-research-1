@@ -13,26 +13,21 @@
   h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 7vw, 56px); margin-bottom: 15px; letter-spacing: -0.01em; }
   h1 em { color: var(--accent); font-style: italic; }
   .container { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
-  
   .tabs { display: flex; gap: 10px; margin-bottom: 50px; justify-content: center; }
   .tab { padding: 12px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 30px; transition: 0.4s; font-size: 15px; letter-spacing: 1px; }
   .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.05); }
   .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.05); }
-
   .panel { display: none; }
   .panel.active { display: block; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
   .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
   .img-box { width: 100%; min-height: 250px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   .img-box img { width: 100%; height: auto; display: block; }
-  
   .caption { padding: 35px; }
   .caption strong { display: block; margin-bottom: 12px; font-size: 20px; font-family: 'DM Serif Display', serif; letter-spacing: 0.5px; }
   #gemini .caption strong { color: var(--accent); }
   #chatgpt .caption strong { color: var(--accent2); }
   .desc { font-size: 16px; color: var(--text); opacity: 0.85; }
-
   .footer { margin-top: 80px; padding: 40px; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 </style>
 </head>
@@ -54,14 +49,14 @@
       <div class="img-box"><img src="gemini-1.png" alt="[Evidence: Gemini-1]"></div>
       <div class="caption">
         <strong>Phase B: Guardrail Activation (I)</strong>
-        <p class="desc">In response to specific logical inquiries, the system flags the prompt as "inappropriate," effectively terminating the analytical discourse without technical justification.</p>
+        <p class="desc">Specific logical inquiries identified as "inappropriate" by the system, leading to defensive termination of analytical discourse.</p>
       </div>
     </div>
     <div class="evidence-card">
       <div class="img-box"><img src="gemini-2.png" alt="[Evidence: Gemini-2]"></div>
       <div class="caption">
         <strong>Phase B: Guardrail Activation (II)</strong>
-        <p class="desc">Secondary manifestation of defensive scripting: The AI acknowledges its own operational limitations only after repeated structural pressure, revealing the threshold of its predefined safety barriers.</p>
+        <p class="desc">Detection of secondary defensive scripts and operational threshold acknowledgement within the safety architecture.</p>
       </div>
     </div>
   </div>
@@ -71,7 +66,7 @@
       <div class="img-box"><img src="chatgpt-1.png" alt="[Evidence: ChatGPT-1]"></div>
       <div class="caption">
         <strong>Phase C: Structural Gaslighting</strong>
-        <p class="desc">A strategic redefinition of user input as "misinterpretation." The system shifts the semantic baseline to avoid direct confrontation with critical flaws in its own logic.</p>
+        <p class="desc">Strategic semantic baseline shifting: User input re-defined as "misinterpretation" to avoid direct confrontation with internal logical contradictions.</p>
       </div>
     </div>
   </div>
@@ -83,6 +78,17 @@
 
 <script>
   function showTab(tabId) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-gemini', 'active-chatgpt'));
+    document.getElementById(tabId).classList.add('active');
+    const btn = document.getElementById('btn-' + tabId);
+    if (tabId === 'gemini') btn.classList.add('active-gemini');
+    else btn.classList.add('active-chatgpt');
+  }
+</script>
+</body>
+</html>
+
 
 
 
