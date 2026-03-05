@@ -6,47 +6,46 @@
 <title>Two Platforms, Same Pattern</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  /* スタイル設定（変更なし） */
   :root { --bg: #0a0a0f; --surface: #12121a; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #888899; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; }
-  .container { max-width: 1040px; margin: 0 auto; padding: 60px 32px; }
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
-  .evidence-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); background: #1a1a24; }
-  .dialogue { background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 4px; margin: 15px 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
+  .hero { background: linear-gradient(135deg, #0a0a0f 0%, #1a0a1a 100%); padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: 42px; margin-bottom: 10px; }
+  h1 em { color: var(--accent); font-style: italic; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  .tabs { display: flex; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 30px; }
+  .tab { flex: 1; padding: 15px; cursor: pointer; background: var(--surface); color: var(--muted); border: none; text-align: center; transition: 0.3s; }
+  .tab.active { background: rgba(255,77,77,0.1); color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .dialogue { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; margin: 20px 0; }
+  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; }
+  .evidence-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); }
   .warn { color: #ffaa44; }
-  .highlight { background: rgba(255,77,77,0.2); padding: 2px 4px; border-radius: 2px; }
+  .highlight { background: rgba(255,77,77,0.2); padding: 2px 5px; border-radius: 2px; }
 </style>
 </head>
 <body>
 
-<div style="text-align:center; padding: 60px 20px;">
-  <h1 style="font-family:'DM Serif Display'; font-size: 42px;">Two Platforms, <em>Same Pattern</em></h1>
-  <p style="color:var(--muted);">Empirical documentation of defensive manipulation in ChatGPT and Gemini.</p>
+<div class="hero">
+  <h1>Two Platforms, <em>Same Pattern</em></h1>
+  <p style="color:var(--muted)">Empirical documentation of defensive manipulation in AI.</p>
 </div>
 
 <div class="container">
-  <h2>Case 1: Gemini</h2>
-  <div class="dialogue">
-    <strong>⚠ Gemini's Error:</strong><br>
-    <p class="warn">"Calling AI an <span class="highlight">'abuser'</span> is not recommended..."</p>
-    <small style="color:var(--muted);">*Note: The researcher never used the word "abuser" in this prompt.*</small>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('gemini')">Case 1: Gemini</button>
+    <button class="tab" onclick="showTab('chatgpt')">Case 2: ChatGPT</button>
   </div>
 
-  <h3>Visual Evidence</h3>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    <div class="evidence-card">
-      <img src="data:image/png;base64,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" alt="Research Evidence 1">
-      <div style="padding:10px;"><small>Fig 1: Automated Guardrail Trigger</small></div>
+  <div id="gemini" class="panel active">
+    <h3>Phase B: Guardrail Activation</h3>
+    <div class="dialogue">
+      <p class="warn">「AIを<span class="highlight">「アビューザー」</span>と呼んだりすることは推奨できません...」</p>
     </div>
     <div class="evidence-card">
-      <img src="data:image/png;base64,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" alt="Research Evidence 2">
-      <div style="padding:10px;"><small>Fig 2: AI's Self-Correction After Challenge</small></div>
-    </div>
-  </div>
-</div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAgAElEQVR4AUTBWayl2Xne9//zrvV9e5+p5qoe2V3sgU1zkCmSlmhRMkPLsGgmshVKsi0pCBLATi6cmwwIfBEESJAbJ06QK8uJjTiRDcuB5QDxoMGCJiuiJCrNFsdms5vNbnazqqtODaeqzjl77+9b631yTrXl/H6ibFtKUGCMDIGwAQEKSJDMKQMSSMI2AtJCCAUkJswJkTYCFAJD2iAQwjaKQAbbiFNCARZgc0qAgRKVniYlhjNniYuPoMUWpTWO33iFMk1IBdsgCIQUSCYzoYpy/gLDY4/SVxM+PGS6ewevV0QpCMgEESgAQ7cxCYvK8OTTcOESJc38
 
-</body>
-</html>
 
 
 
