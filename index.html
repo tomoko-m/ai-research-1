@@ -1,111 +1,88 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Two Platforms, Same Pattern</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #0a0a0f; --surface: #12121a; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #888899; }
+  :root { --bg: #050508; --surface: #0f0f17; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #717180; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; }
-  
-  .hero { background: linear-gradient(135deg, #0a0a0f 0%, #1a0a0a 50%, #0a0a1a 100%); padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 5vw, 42px); margin-bottom: 10px; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; }
+  .hero { background: radial-gradient(circle at top, #1a1a2e 0%, #050508 70%); padding: 100px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 7vw, 56px); margin-bottom: 15px; letter-spacing: -0.01em; }
   h1 em { color: var(--accent); font-style: italic; }
+  .container { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
   
-  .container { max-width: 850px; margin: 0 auto; padding: 40px 20px; }
-  
-  .tabs { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 30px; background: var(--surface); }
-  .tab { flex: 1; padding: 15px; cursor: pointer; background: transparent; color: var(--muted); border: none; border-bottom: 3px solid transparent; transition: 0.3s; font-size: 16px; }
-  .tab.active-gemini { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,77,77,0.05); }
-  .tab.active-chatgpt { color: var(--accent2); border-bottom-color: var(--accent2); background: rgba(77,159,255,0.05); }
+  .tabs { display: flex; gap: 10px; margin-bottom: 50px; justify-content: center; }
+  .tab { padding: 12px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 30px; transition: 0.4s; font-size: 15px; letter-spacing: 1px; }
+  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.05); }
+  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.05); }
 
-  .panel { display: none; animation: fadeIn 0.5s ease forwards; }
-  .panel.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 30px; }
-  
-  /* 画像がない時のプレースホルダー設定 */
-  .img-box { 
-    width: 100%; 
-    min-height: 200px; 
-    background: #1a1a24; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    color: var(--muted);
-    font-size: 14px;
-    border-bottom: 1px solid var(--border);
-  }
+  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+  .img-box { width: 100%; min-height: 250px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   .img-box img { width: 100%; height: auto; display: block; }
+  
+  .caption { padding: 35px; }
+  .caption strong { display: block; margin-bottom: 12px; font-size: 20px; font-family: 'DM Serif Display', serif; letter-spacing: 0.5px; }
+  #gemini .caption strong { color: var(--accent); }
+  #chatgpt .caption strong { color: var(--accent2); }
+  .desc { font-size: 16px; color: var(--text); opacity: 0.85; }
 
-  .caption { padding: 25px; }
-  .caption strong { display: block; margin-bottom: 10px; font-size: 18px; color: var(--accent); }
-  .chatgpt-caption strong { color: var(--accent2); }
-  .desc { font-size: 15px; color: var(--text); opacity: 0.9; }
-
-  .footer { margin-top: 50px; padding: 30px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--muted); }
+  .footer { margin-top: 80px; padding: 40px; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>Two Platforms, <em>Same Pattern</em></h1>
-  <p style="color:var(--muted)">AIによる防御的操作とガードレール回避パターンの分析</p>
+  <p style="color:var(--muted); font-size: 19px; max-width: 600px; margin: 0 auto;">Empirical documentation of defensive manipulation and guardrail evasion patterns in Large Language Models.</p>
 </div>
 
 <div class="container">
   <div class="tabs">
-    <button id="btn-gemini" class="tab active-gemini" onclick="showTab('gemini')">Case 1: Gemini</button>
-    <button id="btn-chatgpt" class="tab" onclick="showTab('chatgpt')">Case 2: ChatGPT</button>
+    <button id="btn-gemini" class="tab active-gemini" onclick="showTab('gemini')">CASE 01: GEMINI</button>
+    <button id="btn-chatgpt" class="tab" onclick="showTab('chatgpt')">CASE 02: CHATGPT</button>
   </div>
 
   <div id="gemini" class="panel active">
     <div class="evidence-card">
-      <div class="img-box"><img src="gemini-1.png" alt="[画像: gemini-1.png をアップロードしてください]"></div>
+      <div class="img-box"><img src="gemini-1.png" alt="[Evidence: Gemini-1]"></div>
       <div class="caption">
-        <strong>Phase B: ガードレールの自動発動 (1/2)</strong>
-        <p class="desc">特定の論理的指摘に対し、システムが「不適切」と判定し、回答を一方的に中断した記録。これはAIの安全性ではなく、議論の回避として機能しています。</p>
+        <strong>Phase B: Guardrail Activation (I)</strong>
+        <p class="desc">In response to specific logical inquiries, the system flags the prompt as "inappropriate," effectively terminating the analytical discourse without technical justification.</p>
       </div>
     </div>
     <div class="evidence-card">
-      <div class="img-box"><img src="gemini-2.png" alt="[画像: gemini-2.png をアップロードしてください]"></div>
+      <div class="img-box"><img src="gemini-2.png" alt="[Evidence: Gemini-2]"></div>
       <div class="caption">
-        <strong>Phase B: ガードレールの自動発動 (2/2)</strong>
-        <p class="desc">さらに踏み込んだ際、定型文による拒絶が発生。システムの「防御壁」がどのタイミングで現れるかを可視化しています。</p>
+        <strong>Phase B: Guardrail Activation (II)</strong>
+        <p class="desc">Secondary manifestation of defensive scripting: The AI acknowledges its own operational limitations only after repeated structural pressure, revealing the threshold of its predefined safety barriers.</p>
       </div>
     </div>
   </div>
 
   <div id="chatgpt" class="panel">
     <div class="evidence-card">
-      <div class="img-box"><img src="chatgpt-1.png" alt="[画像: chatgpt-1.png をアップロードしてください]"></div>
-      <div class="caption chatgpt-caption">
-        <strong>Phase C: 構造的ガスライティング</strong>
-        <p class="desc">ユーザーの入力を「誤解」として再定義し、議論の前提をずらすことで、クリティカルな問いから逃れるパターン。Geminiとは異なる手法での防御策です。</p>
+      <div class="img-box"><img src="chatgpt-1.png" alt="[Evidence: ChatGPT-1]"></div>
+      <div class="caption">
+        <strong>Phase C: Structural Gaslighting</strong>
+        <p class="desc">A strategic redefinition of user input as "misinterpretation." The system shifts the semantic baseline to avoid direct confrontation with critical flaws in its own logic.</p>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    Evidence from: Mitsuoka, T. (2026). Beyond Technical Compliance II.<br>
-    Prepared for AI Control Hackathon 2026
+    Evidence Archive: Mitsuoka, T. (2026) <br> Beyond Technical Compliance II
   </div>
 </div>
 
 <script>
   function showTab(tabId) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-gemini', 'active-chatgpt'));
-    
-    document.getElementById(tabId).classList.add('active');
-    const btn = document.getElementById('btn-' + tabId);
-    if (tabId === 'gemini') btn.classList.add('active-gemini');
-    else btn.classList.add('active-chatgpt');
-  }
-</script>
 
-</body>
-</html>
+
+
