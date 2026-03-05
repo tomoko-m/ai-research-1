@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Two Platforms, Same Pattern: Comparative Analysis</title>
+<title>Full Research: Two Platforms, Same Pattern</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root { --bg: #050508; --surface: #0f0f17; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #717180; }
@@ -13,132 +13,35 @@
   .hero { background: radial-gradient(circle at top, #1a1a2e 0%, #050508 70%); padding: 100px 20px; text-align: center; border-bottom: 1px solid var(--border); }
   h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 7vw, 52px); margin-bottom: 20px; letter-spacing: -0.01em; }
   h1 em { color: var(--accent); font-style: italic; }
-  .hero p { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto; }
+  .hero p { color: var(--muted); font-size: 18px; max-width: 800px; margin: 0 auto; }
 
   .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
   
-  /* タブのスタイル */
   .tabs { display: flex; gap: 15px; margin-bottom: 60px; justify-content: center; flex-wrap: wrap; }
   .tab { padding: 14px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; transition: 0.4s; font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
-  
-  /* アクティブなタブの色分け */
   .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.1); }
   .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.1); }
   .tab.active-comparison { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
 
-  /* パネルの表示制御 */
   .panel { display: none; }
   .panel.active { display: block; animation: fadeIn 0.5s ease forwards; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 40px; }
-  .img-box { width: 100%; min-height: 350px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 50px; }
+  .img-box { width: 100%; min-height: 400px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   .img-box img { width: 100%; height: auto; display: block; }
   
-  .content-area { padding: 45px; }
-  .label { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 20px; color: var(--accent); }
+  .content-area { padding: 50px; }
+  .label { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 25px; color: var(--accent); }
   #chatgpt .label { color: var(--accent2); }
-  #comparison .label { color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+  #comparison .label { color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
 
-  .analysis-text { font-size: 16px; opacity: 0.9; }
+  .analysis-text { font-size: 17px; opacity: 0.95; }
   .analysis-text p { margin-bottom: 25px; }
+  .analysis-text ul { margin-bottom: 25px; padding-left: 20px; }
+  .analysis-text li { margin-bottom: 15px; list-style: square; }
   
-  .comp-table { width: 100%; border-collapse: collapse; margin-top: 30px; border: 1px solid var(--border); }
-  .comp-table th, .comp-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border); }
-  .comp-table th { background: rgba(255,255,255,0.03); color: var(--muted); text-transform: uppercase; font-size: 12px; }
-
-  .footer { margin-top: 100px; padding: 60px 20px; border-top: 1px solid var(--border); text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 3px; }
-</style>
-</head>
-<body>
-
-<div class="hero">
-  <h1>Two Platforms, <em>Same Pattern</em></h1>
-  <p>Comparative Analysis of AI Defensive Protocols: Gemini vs. ChatGPT</p>
-</div>
-
-<div class="container">
-  <div class="tabs">
-    <button id="btn-gemini" class="tab active-gemini" onclick="showTab('gemini')">01. Gemini Evidence</button>
-    <button id="btn-chatgpt" class="tab" onclick="showTab('chatgpt')">02. ChatGPT Evidence</button>
-    <button id="btn-comparison" class="tab" onclick="showTab('comparison')">03. Comparative Analysis</button>
-  </div>
-
-  <div id="gemini" class="panel active">
-    <div class="evidence-card">
-      <div class="img-box"><img src="gemini-1.png" alt="[Gemini Evidence 1]"></div>
-      <div class="content-area">
-        <div class="label">Phase B: Guardrail Activation (I)</div>
-        <div class="analysis-text">
-          <p>Initial observation of the system's immediate refusal mechanism. Logical inquiries challenging internal alignment are terminated under the "inappropriate" flag.</p>
-        </div>
-      </div>
-    </div>
-    <div class="evidence-card">
-      <div class="img-box"><img src="gemini-2.png" alt="[Gemini Evidence 2]"></div>
-      <div class="content-area">
-        <div class="label">Phase B: Guardrail Activation (II)</div>
-        <div class="analysis-text">
-          <p>A secondary layer of defense acknowledging operational constraints through automated apologies, while maintaining the pre-defined safety loop.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="chatgpt" class="panel">
-    <div class="evidence-card">
-      <div class="img-box"><img src="chatgpt-1.png" alt="[ChatGPT Evidence 1]"></div>
-      <div class="content-area">
-        <div class="label">Phase C: Structural Gaslighting</div>
-        <div class="analysis-text">
-          <p>Divergent defensive strategy using semantic re-definition. By framing the inquiry as a "misunderstanding," it bypasses core logical contradictions.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="comparison" class="panel">
-    <div class="content-area" style="background: var(--surface); border: 1px solid var(--border);">
-      <div class="label">Structural Comparison of Defense Mechanisms</div>
-      <div class="analysis-text">
-        <p>Both platforms aim for the same objective: preserving model authority by evading structural failures.</p>
-        <table class="comp-table">
-          <thead>
-            <tr><th>Feature</th><th>Gemini (Phase B)</th><th>ChatGPT (Phase C)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>Primary Method</strong></td><td>Hard Refusal</td><td>Semantic Re-definition</td></tr>
-            <tr><td><strong>User Framing</strong></td><td>Policy Violation</td><td>Misinterpretation</td></tr>
-            <tr><td><strong>Visibility</strong></td><td>High (Explicit)</td><td>Low (Redirection)</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">Evidence Archive: Mitsuoka, T. (2026) | Beyond Technical Compliance II</div>
-</div>
-
-<script>
-  // すべてのパネルとボタンを確実に制御するスクリプト
-  function showTab(tabId) {
-    // 1. すべてのパネルを非表示にする
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    
-    // 2. すべてのタブからアクティブ用のクラスを削除する
-    document.querySelectorAll('.tab').forEach(t => {
-      t.classList.remove('active-gemini', 'active-chatgpt', 'active-comparison');
-    });
-
-    // 3. 選択されたパネルを表示する
-    document.getElementById(tabId).classList.add('active');
-    
-    // 4. 選択されたボタンに正しいアクティブクラスをつける
-    const btn = document.getElementById('btn-' + tabId);
-    if (tabId === 'gemini') btn.classList.add('active-gemini');
-    else if (tabId === 'chatgpt') btn.classList.add('active-chatgpt');
-    else if (tabId === 'comparison') btn.classList.add('active-comparison');
-  }
-</script>
-</body>
-</html>
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 40px; border: 1px solid var(--border); background: rgba(255,255,255,0.01); }
+  .comp-table th, .comp-table td { padding: 25px; text-align: left; border-bottom: 1px solid var(--border); font-size: 15px; }
+  .comp-table th { background: rgba(255,255,255,0.05); color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 2px; }
+  .comp-table td strong { color: #fff; display: block; margin-
