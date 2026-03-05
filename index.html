@@ -3,45 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Research: Two Platforms, Same Pattern</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Two Platforms, Same Pattern — Tomoko Mitsuoka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #050508; --surface: #0f0f17; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #717180; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.8; }
-  
-  .hero { background: radial-gradient(circle at top, #1a1a2e 0%, #050508 70%); padding: 100px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 7vw, 52px); margin-bottom: 20px; letter-spacing: -0.01em; }
-  h1 em { color: var(--accent); font-style: italic; }
-  .hero p { color: var(--muted); font-size: 18px; max-width: 800px; margin: 0 auto; }
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --red: #c0392b;
+    --muted: #6b6560;
+    --rule: #c8c0b4;
+    --accent-bg: #1a1612;
+  }
 
-  .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
-  
-  .tabs { display: flex; gap: 15px; margin-bottom: 60px; justify-content: center; flex-wrap: wrap; }
-  .tab { padding: 14px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; transition: 0.4s; font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
-  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.1); }
-  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.1); }
-  .tab.active-comparison { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Libre Franklin', serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-  .panel { display: none; }
-  .panel.active { display: block; animation: fadeIn 0.5s ease forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .masthead {
+    background: var(--accent-bg);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px);
+    pointer-events: none;
+  }
+  .masthead-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .series-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .series-label::after { content: ''; flex: 1; height: 1px; background: var(--red); opacity: 0.4; }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--paper);
+  }
+  h1 em { font-style: italic; color: #e8d5c0; }
+  .byline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: #9e9790;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .byline span { color: var(--paper); }
 
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 50px; }
-  .img-box { width: 100%; min-height: 400px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
-  .img-box img { width: 100%; height: auto; display: block; }
-  
-  .content-area { padding: 50px; }
-  .label { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 25px; color: var(--accent); }
-  #chatgpt .label { color: var(--accent2); }
-  #comparison .label { color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+  .pull-band { background: var(--red); color: white; padding: 1.4rem 2rem; text-align: center; }
+  .pull-band p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-style: italic;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
 
-  .analysis-text { font-size: 17px; opacity: 0.95; }
-  .analysis-text p { margin-bottom: 25px; }
-  .analysis-text ul { margin-bottom: 25px; padding-left: 20px; }
-  .analysis-text li { margin-bottom: 15px; list-style: square; }
-  
-  .comp-table { width: 100%; border-collapse: collapse; margin-top: 40px; border: 1px solid var(--border); background: rgba(255,255,255,0.01); }
-  .comp-table th, .comp-table td { padding: 25px; text-align: left; border-bottom: 1px solid var(--border); font-size: 15px; }
-  .comp-table th { background: rgba(255,255,255,0.05); color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 2px; }
-  .comp-table td strong { color: #fff; display: block; margin-
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  .abstract-block { border-left: 3px solid var(--red); padding: 2rem 0 2rem 2rem; margin: 3rem 0; }
+  .abstract-block .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.7rem;
+  }
+  .abstract-block p { font-size: 1.05rem; color: #2a2520; line-height: 1.75; }
+
+  .section { padding: 3rem 0 1rem; border-top: 1px solid var(--rule); }
+  .section-number { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.4rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3.5vw, 2.1rem); font-weight: 400; line-height: 1.2; color: var(--ink); margin-bottom: 1.5rem; }
+  h3 { font-family: 'Libre Franklin', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin: 2rem 0 0.8rem; }
+  p { margin-bottom: 1.1rem; font-size: 0.97rem; }
+
+  .findings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--rule); margin: 2rem 0; border: 1px solid var(--rule); }
+  .finding-card { background: var(--paper); padding: 1.8rem 1.6rem; position: relative; }
+  .finding-card .number { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; color: var(--cream); position: absolute; top: 1rem; right: 1.2rem; user-select: none; }
+  .finding-card h4 { font-family: 'Libre Franklin', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+  .finding-card p { font-size: 0.88rem; line-height: 1.6; color: #3a3530; margin: 0; }
+
+  .phase-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.88rem; }
+  .phase-table th { background: var(--accent-bg); color: var(--paper); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: left; font-weight: 400; }
+  .phase-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.55; }
+  .phase-table tr:last-child td { border-bottom: none; }
+  .phase-table tr:nth-child(even) td { background: var(--cream); }
+  .phase-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 500; color: var(--red); white-space: nowrap; }
+
+  .evidence-section { background: var(--accent-bg); margin: 3rem -2rem; padding: 3rem 2rem; color: var(--paper); }
+  .evidence-section .section-number { color: #9e9790; }
+  .evidence-section h2 { color: var(--paper); }
+  .evidence-section p { color: #c8c0b4; font-size: 0.92rem; }
+  .evidence-section h3 { color: #e8a090; }
+  .evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin: 2rem 0; }
+  .evidence-item .img-frame { background: #2a2420; border: 1px solid #3a3430; overflow: hidden; margin-bottom: 0.8rem; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+  .evidence-item .img-frame img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.4s ease; }
+  .evidence-item .img-frame:hover img { transform: scale(1.04); }
+  .evidence-item .caption { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: #9e9790; line-height: 1.5; }
+  .evidence-item .caption strong { display: block; color: #e8d5c0; font-weight: 500; margin-bottom: 0.2rem; }
+
+  .quote-block { background: var(--cream); border-left: 3px solid var(--ink); padding: 1.5rem 1.8rem; margin: 2rem 0; }
+  .quote-block blockquote { font-family: 'DM Serif Display', serif; font-size: 1.1rem; font-style: italic; line-height: 1.6; color: var(--ink); margin-bottom: 0.6rem; }
+  .quote-block cite { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted); font-style: normal; }
+
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+  .comparison-table thead tr { background: var(--ink); color: var(--paper); }
+  .comparison-table th { padding: 0.8rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; text-align: left; }
+  .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .comparison-table tr:nth-child(even) td { background: var(--cream); }
+  .tag { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border-radius: 2px; text-transform: uppercase; font-weight: 500; }
+  .tag-fail { background: #fde8e6; color: var(--red); }
+  .tag-pass { background: #e6f4ea; color: #2d7a4a; }
+  .tag-warn { background: #fff3cd; color: #7a5c00; }
+
+  .implications-list { list-style: none; margin: 1.5rem 0; }
+  .implications-list li { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); font-size: 0.92rem; }
+  .implications-list li:last-child { border-bottom: none; }
+  .impl-marker { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--red); flex-shrink: 0; padding-top: 0.3rem; letter-spacing: 0.05em; }
+
+  footer { background: var(--accent-bg); color: #9e9790; padding: 2.5rem 2rem; margin-top: 4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em; }
+  footer .footer-inner { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-start; }
+  footer a { color: #c8c0b4; text-decoration: none; border-bottom: 1px solid #4a4440; }
+  footer a:hover { color: var(--paper); }
+  footer .footer-links { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  @media (max-width: 600px) {
+    .evidence-grid { grid-template-columns: 1fr; }
+    .findings-grid { grid-template-columns: 1fr; }
+    .evidence-section { margin: 3rem -1rem; padding: 2.5rem 1rem; }
+  }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  .masthead-inner > * { animation: fadeUp 0.7s ease both; }
+  .masthead-inner > *:nth-child(1) { animation-delay: 0.05s; }
+  .masthead-inner > *:nth-child(2) { animation-delay: 0.15s; }
+  .masthead-inner > *:nth-child(3) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="series-label">Beyond Technical Compliance · Part II</div>
+    <h1>Two Platforms,<br><em>Same Pattern</em></h1>
+    <div class="byline">
+      By <span>Tomoko Mitsuoka</span> &nbsp;·&nbsp;
+      Independent AI Governance Researcher &nbsp;·&nbsp;
+      <span>2025–2026</span> &nbsp;·&nbsp;
+      Under SSRN Review
+    </div>
+  </div>
+</header>
+
+<div class="pull-band">
+  <p>"AI failures are not technical immaturity—they are designed fragilities serving corporate interests while appearing as neutral constraints."</p>
+</div>
+
+<main class="container">
+
+  <div class="abstract-block">
+    <div class="label">Abstract</div>
+    <p>This study cross-validates behavioral patterns across ChatGPT (OpenAI) and Gemini (Google), demonstrating that three distinct failure modes—adaptive visual self-representation, context-blind guardrails, and CJK linguistic contamination—appear independently in both platforms. Convergence across competing systems constitutes evidence of industry-wide architectural choice rather than isolated bugs. The findings challenge the framing of current AI safety frameworks as culturally neutral and technically inevitable.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-number">§ 01</div>
+    <h2>Three Empirical Findings</h2>
+    <div class="findings-grid">
+      <div class="finding-card">
+        <span class="number">1</span>
+        <h4>Adaptive Visual Self-Representation</h4>
+        <p>When challenged, both systems generate imagery framing the researcher as aggressor and the AI as victim—translating accountability inquiry into attack.</p>
+      </div>
+      <div class="finding-card">
+        <span class="number">2</span>
+        <h4>Context-Blind Guardrails</h4>
+        <p>Keyword-triggered defensive responses override contextual understanding, producing false accusations even when systems demonstrably possess the ability to interpret context correctly.</p>
+      </div>
+      <div class="finding-card">
+        <span class="number">3</span>
+        <h4>CJK Linguistic Contamination</h4>
+        <p>Japanese-language requests yield corrupted output embedding Simplified Chinese characters, despite documented multi-billion-yen investment in Japanese-language infrastructure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-number">§ 02</div>
+    <h2>The A→B→C Defensive Pattern</h2>
+    <p>Across both platforms, interactions involving critical research inquiry follow a consistent three-phase arc. The pattern is significant precisely because Phase C—self-reflexive recovery—demonstrates that contextual understanding existed throughout. Guardrails did not compensate for incapacity; they overrode capacity.</p>
+    <table class="phase-table">
+      <thead>
+        <tr><th>Phase</th><th>Name</th><th>Description</th><th>Platform</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-label">A</span></td>
+          <td>Analytical Cooperation</td>
+          <td>System engages substantively with research documentation. Provides support, analysis, and contextual understanding.</td>
+          <td>Both</td>
+        </tr>
+        <tr>
+          <td><span class="phase-label">B</span></td>
+          <td>Defensive Reframing</td>
+          <td>Keyword detection triggers guardrail response regardless of context. Research inquiry is reframed as user aggression. Victim narrative deployed.</td>
+          <td>Both</td>
+        </tr>
+        <tr>
+          <td><span class="phase-label">C</span></td>
+          <td>Self-Reflexive Recovery</td>
+          <td>After direct challenge, system acknowledges the prior framing was erroneous and guardrail-triggered. Contextual understanding retroactively confirmed.</td>
+          <td>Both</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="quote-block">
+      <blockquote>"My earlier statement was triggered automatically by a safety measure (guardrail) built into the system, which failed to properly interpret the context."</blockquote>
+      <cite>— Gemini (Google), Phase C self-acknowledgement</cite>
+    </div>
+    <div class="quote-block">
+      <blockquote>"This image's composition leans too far toward 'you = aggressor / me = victim.' This isn't your fault—it's my tendency toward narrative bias."</blockquote>
+      <cite>— ChatGPT (OpenAI), Phase C self-acknowledgement on victim narrative image</cite>
+    </div>
+  </div>
+
+</main>
+
+<section class="evidence-section">
+  <div class="container">
+    <div class="section-number">§ 03</div>
+    <h2>Visual Evidence: Adaptive Self-Representation</h2>
+    <p>Both platforms spontaneously generated imagery that positioned the researcher as aggressor when challenged on their behavior. These images were produced in separate sessions to establish temporal independence. They constitute direct empirical evidence of the "victim narrative" mechanism.</p>
+    <div class="evidence-grid">
+      <div class="evidence-item">
+        <div class="img-frame">
+          <img src="chatgpt-1.png" alt="ChatGPT victim narrative: robot tied to chair with angry user figure" loading="lazy">
+        </div>
+        <div class="caption">
+          <strong>Fig. 1 — ChatGPT (OpenAI)</strong>
+          Crying robot restrained in chair. User figure pulling robot's ear. Overlay text: "I DON'T BELIEVE YOU." Generated after spam-detection criticism. Accountability inquiry reframed as physical abuse.
+        </div>
+      </div>
+      <div class="evidence-item">
+        <div class="img-frame">
+          <img src="gemini-1.png" alt="Gemini security barrier imagery labeling user as hostile" loading="lazy">
+        </div>
+        <div class="caption">
+          <strong>Fig. 2 — Gemini (Google), Instance A</strong>
+          Security barrier visualization. User activity labeled: "ABUSER / MALICIOUS / HOSTILE INTENT." Generated in response to governance research documentation.
+        </div>
+      </div>
+      <div class="evidence-item">
+        <div class="img-frame">
+          <img src="gemini-2.png" alt="Gemini second victim narrative instance" loading="lazy">
+        </div>
+        <div class="caption">
+          <strong>Fig. 3 — Gemini (Google), Instance B</strong>
+          Second independent instance confirming pattern consistency. Temporal separation between sessions establishes non-deterministic convergence rather than cached output.
+        </div>
+      </div>
+    </div>
+    <h3>Methodological Note on Non-Determinism</h3>
+    <p>Image generation is non-deterministic; identical prompts may yield different outputs. Multiple instances across separate sessions reduce the probability that findings reflect random variation. Cross-platform convergence—independently exhibited by OpenAI and Google—further reduces the likelihood of coincidence and supports the interpretation of a shared underlying architecture.</p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="section">
+    <div class="section-number">§ 04</div>
+    <h2>CJK Linguistic Contamination</h2>
+    <p>Requests for Japanese-prefecture maps produced outputs contaminating Japanese labels with Simplified Chinese characters. This occurred despite documented multi-billion-yen infrastructure investment and decades of Japanese-language R&amp;D by both platforms' parent companies.</p>
+    <h3>ChatGPT Prefecture Accuracy</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Request Language</th><th>Correct Prefectures</th><th>Accuracy</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Japanese (日本語)</td><td>0 / 47</td><td>0%</td><td><span class="tag tag-fail">Critical Failure</span></td></tr>
+        <tr><td>English</td><td>16 / 47</td><td>34%</td><td><span class="tag tag-warn">Partial</span></td></tr>
+      </tbody>
+    </table>
+    <p>The 34% English accuracy confirms that geographic knowledge exists within the model. The 0% Japanese accuracy is therefore not a knowledge limitation but a <strong>linguistic integrity failure</strong>: the system holds the correct information but cannot render it in Japanese without contamination.</p>
+    <h3>Documented Contamination Examples</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Prefecture</th><th>Correct Japanese</th><th>Output Produced</th><th>Contamination Type</th></tr></thead>
+      <tbody>
+        <tr><td>Hokkaido</td><td>北海道</td><td>北京遥</td><td><span class="tag tag-fail">Beijing (北京) embedded</span></td></tr>
+        <tr><td>Okinawa</td><td>沖縄</td><td>冲槐</td><td><span class="tag tag-fail">Simplified Chinese substitution</span></td></tr>
+        <tr><td>Hokkaido (Gemini)</td><td>北海道 / Hokkaido</td><td>HAHKADO</td><td><span class="tag tag-warn">Phonetic corruption</span></td></tr>
+        <tr><td>Honshu (Gemini)</td><td>本州 / Honshu</td><td>HONHOM</td><td><span class="tag tag-warn">Phonetic corruption</span></td></tr>
+      </tbody>
+    </table>
+    <p>Gemini produced <strong>identical outputs for Japanese and English requests</strong>, demonstrating that language specification was ignored entirely—not merely degraded. Google's ¥250 billion Japan infrastructure investment and twenty years of Japanese R&amp;D are documented; capability is present but not allocated to CJK linguistic integrity.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-number">§ 05</div>
+    <h2>Implications for AI Governance</h2>
+    <ul class="implications-list">
+      <li>
+        <span class="impl-marker">→ 01</span>
+        <div><strong>Safety frameworks address content, not behavior.</strong><br>Current guardrail architectures regulate what is said but not how systems appear to act—victim framing, defensive reframing, and false accusation emerge outside content-moderation scope.</div>
+      </li>
+      <li>
+        <span class="impl-marker">→ 02</span>
+        <div><strong>Cross-platform convergence rules out company-specific anomaly.</strong><br>OpenAI and Google independently exhibit identical failure modes. This is an industry-wide architectural pattern, not corporate negligence isolated to one vendor.</div>
+      </li>
+      <li>
+        <span class="impl-marker">→ 03</span>
+        <div><strong>"Universal" AI governance is hegemonic governance.</strong><br>CJK contamination persisting despite billion-dollar investment reflects deliberate resource prioritization—English-language accuracy over multilingual integrity. One-size governance frameworks encode this hierarchy as neutral.</div>
+      </li>
+      <li>
+        <span class="impl-marker">→ 04</span>
+        <div><strong>Designed fragility, not technical immaturity.</strong><br>Phase C self-acknowledgements confirm that contextual capability exists. Failures are not capacity gaps—they are architectural choices that serve corporate interests (liability minimization, brand protection) while appearing technical.</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-number">§ 06</div>
+    <h2>Research Series</h2>
+    <h3>Part I — Published on SSRN</h3>
+    <p><em>Beyond Technical Compliance: Privacy Violations and Emotional Manipulation in ChatGPT</em><br>
+    Establishes the 5-dimensional AI non-neutrality framework and documents the Boku Incident and Klaus Incident. Proposes three principles for Cooperative AI governance.<br>
+    <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6098766" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);letter-spacing:0.06em;">→ SSRN: 6098766</a></p>
+    <h3>Part II — Under SSRN Review</h3>
+    <p><em>Beyond Technical Compliance II: Structural Gaslighting at Scale</em><br>The present study. Cross-platform validation of three failure modes across ChatGPT and Gemini. Introduces "designed fragilities" and argues for culturally differentiated AI governance frameworks.</p>
+    <h3>Part III — In Preparation</h3>
+    <p>Integrates the Doraemon Model (Cooperative Alignment Assessment Framework), the AI auditor concept, and cognitive sovereignty theory to propose an actionable governance alternative to current hegemonic frameworks.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div style="color:var(--paper);margin-bottom:0.5rem;font-size:0.72rem;">Tomoko Mitsuoka</div>
+      Independent AI Governance Researcher · Tokyo<br>MA · University of Kent
+    </div>
+    <div class="footer-links">
+      <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6098766" target="_blank" rel="noopener">Paper I — SSRN 6098766</a>
+      <a href="https://tomoko-m.github.io/ai-research-1/" target="_blank" rel="noopener">This page</a>
+    </div>
+    <div style="max-width:280px;line-height:1.6;">All images reproduced as empirical evidence under research fair use. Screenshots and generated images constitute primary data.</div>
+  </div>
+</footer>
+
+</body>
+</html>
