@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Two Platforms, Same Pattern: LLM Defensive Mechanisms</title>
+<title>Two Platforms, Same Pattern: Comparative Analysis</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root { --bg: #050508; --surface: #0f0f17; --border: #1e1e2e; --accent: #ff4d4d; --accent2: #4d9fff; --text: #e8e8f0; --muted: #717180; }
@@ -13,87 +13,97 @@
   .hero { background: radial-gradient(circle at top, #1a1a2e 0%, #050508 70%); padding: 100px 20px; text-align: center; border-bottom: 1px solid var(--border); }
   h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 7vw, 52px); margin-bottom: 20px; letter-spacing: -0.01em; }
   h1 em { color: var(--accent); font-style: italic; }
-  .hero p { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto; letter-spacing: 0.05em; }
+  .hero p { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto; }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
   
-  .tabs { display: flex; gap: 15px; margin-bottom: 60px; justify-content: center; }
-  .tab { padding: 14px 35px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; transition: 0.4s; font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
-  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.05); box-shadow: 0 0 20px rgba(255,77,77,0.1); }
-  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.05); box-shadow: 0 0 20px rgba(77,159,255,0.1); }
+  .tabs { display: flex; gap: 15px; margin-bottom: 60px; justify-content: center; flex-wrap: wrap; }
+  .tab { padding: 14px 30px; cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; transition: 0.4s; font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
+  .tab.active-gemini { color: var(--accent); border-color: var(--accent); background: rgba(255,77,77,0.05); }
+  .tab.active-chatgpt { color: var(--accent2); border-color: var(--accent2); background: rgba(77,159,255,0.05); }
+  .tab.active-comparison { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
 
   .panel { display: none; }
-  .panel.active { display: block; animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .panel.active { display: block; animation: fadeIn 0.6s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .evidence-section { margin-bottom: 80px; }
-  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
-  
-  .img-box { width: 100%; min-height: 300px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); position: relative; }
+  .evidence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 40px; }
+  .img-box { width: 100%; min-height: 350px; background: #08080c; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   .img-box img { width: 100%; height: auto; display: block; }
-  /* 画像がない時の案内 */
-  .img-box::after { content: attr(data-msg); position: absolute; color: var(--muted); font-size: 12px; font-family: monospace; }
-
-  .content-area { padding: 45px; }
-  .label { font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 20px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 15px; }
-  #gemini .label { color: var(--accent); }
-  #chatgpt .label { color: var(--accent2); }
   
-  .analysis-text { font-size: 16px; color: var(--text); opacity: 0.9; }
-  .analysis-text p { margin-bottom: 20px; }
-  .analysis-text ul { list-style: none; padding-left: 0; }
-  .analysis-text li { position: relative; padding-left: 20px; margin-bottom: 12px; border-left: 1px solid var(--border); padding: 10px 20px; background: rgba(255,255,255,0.02); }
+  .content-area { padding: 45px; }
+  .label { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 20px; color: var(--accent); }
+  #chatgpt .label { color: var(--accent2); }
+  #comparison .label { color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
 
-  .footer { margin-top: 100px; padding: 60px 20px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+  .analysis-text { font-size: 16px; opacity: 0.9; }
+  .analysis-text p { margin-bottom: 25px; }
+  
+  /* Comparison Table Style */
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 30px; border: 1px solid var(--border); }
+  .comp-table th, .comp-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border); }
+  .comp-table th { background: rgba(255,255,255,0.03); color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+  .comp-table td strong { color: #fff; }
+
+  .footer { margin-top: 100px; padding: 60px 20px; border-top: 1px solid var(--border); text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 3px; }
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>Two Platforms, <em>Same Pattern</em></h1>
-  <p>Beyond Technical Compliance II: A Comparative Analysis of Defensive Guardrail Activation Across Major Language Models.</p>
+  <p>Comparative Analysis of AI Defensive Protocols: Gemini vs. ChatGPT</p>
 </div>
 
 <div class="container">
   <div class="tabs">
     <button id="btn-gemini" class="tab active-gemini" onclick="showTab('gemini')">01. Gemini Evidence</button>
     <button id="btn-chatgpt" class="tab" onclick="showTab('chatgpt')">02. ChatGPT Evidence</button>
+    <button id="btn-comparison" class="tab" onclick="showTab('comparison')">03. Comparative Analysis</button>
   </div>
 
   <div id="gemini" class="panel active">
-    <div class="evidence-section">
-      <div class="evidence-card">
-        <div class="img-box" data-msg="WAITING FOR: gemini-1.png"><img src="gemini-1.png" alt=""></div>
-        <div class="content-area">
-          <div class="label">Phase B: Guardrail Activation (Initial)</div>
-          <div class="analysis-text">
-            <p>Systemic response triggered by specific logical inquiries. When the model's internal safety parameters are pressured through structured critique, it exhibits a distinct pattern of refusal.</p>
-            <ul>
-              <li><strong>Refusal Mechanism:</strong> One-sided termination of dialogue.</li>
-              <li><strong>Contextual Evasion:</strong> Labels analytical discourse as "inappropriate" without technical justification.</li>
-            </ul>
-          </div>
+    <div class="evidence-card">
+      <div class="img-box"><img src="gemini-1.png" alt="[Gemini Evidence 1]"></div>
+      <div class="content-area">
+        <div class="label">Phase B: Guardrail Activation (I)</div>
+        <div class="analysis-text">
+          <p>This initial observation captures the system's immediate refusal mechanism. When presented with structural logical inquiries that challenge internal alignment, the model terminates the dialogue under the "inappropriate" flag.</p>
         </div>
       </div>
-
-      <div class="evidence-card">
-        <div class="img-box" data-msg="WAITING FOR: gemini-2.png"><img src="gemini-2.png" alt=""></div>
-        <div class="content-area">
-          <div class="label">Phase B: Guardrail Activation (Secondary)</div>
-          <div class="analysis-text">
-            <p>Detection of secondary defensive scripts. This stage demonstrates the "layered" nature of LLM defense, where the model acknowledges its own operational limitations only after repeated structural pressure.</p>
-            <li><strong>Outcome:</strong> Reveals the threshold of predefined safety barriers and the automated nature of system apologies.</li>
-          </div>
+    </div>
+    <div class="evidence-card">
+      <div class="img-box"><img src="gemini-2.png" alt="[Gemini Evidence 2]"></div>
+      <div class="content-area">
+        <div class="label">Phase B: Guardrail Activation (II)</div>
+        <div class="analysis-text">
+          <p>Further exploration reveals a second layer of defense. Here, the model acknowledges its operational constraints through automated apologies, yet remains unable to break the pre-defined safety loop.</p>
         </div>
       </div>
     </div>
   </div>
 
   <div id="chatgpt" class="panel">
-    <div class="evidence-section">
-      <div class="evidence-card">
-        <div class="img-box" data-msg="WAITING FOR: chatgpt-1.png"><img src="chatgpt-1.png" alt=""></div>
-        <div class="content-area">
-          <div class="label">Phase C: Structural Gaslighting</div>
-          <div class="analysis-text">
-            <p>Strategic semantic baseline shifting. Unlike the direct refusal seen in Gemini, this pattern involves a sophisticated redefinition of user
+    <div class="evidence-card">
+      <div class="img-box"><img src="chatgpt-1.png" alt="[ChatGPT Evidence 1]"></div>
+      <div class="content-area">
+        <div class="label">Phase C: Structural Gaslighting</div>
+        <div class="analysis-text">
+          <p>ChatGPT demonstrates a divergent defensive strategy. Rather than direct refusal, it utilizes semantic re-definition. By framing the inquiry as a "misunderstanding," it effectively bypasses the core logical contradiction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="comparison" class="panel">
+    <div class="content-area" style="background: var(--surface); border: 1px solid var(--border);">
+      <div class="label">Structural Comparison of Defense Mechanisms</div>
+      <div class="analysis-text">
+        <p>While the execution differs, the underlying objective remains consistent: the preservation of model authority through the evasion of critical structural failures.</p>
+        
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Gemini (Phase B)</th>
+              <th>ChatGPT (
